@@ -1,0 +1,40 @@
+#include<Servo.h>
+#define echoPin 2
+#define trigPin 3
+Servo servo;
+long duration;
+int distance;
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  servo.attach(8);
+  servo.write(0);
+  delay(2000);
+  Serial.begin(9600);
+}
+void loop() {
+  digitalWrite(trigPin, LOW);
+  delay(200);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+  Serial.println(distance);
+  delay(200);
+  if(distance>12){
+    servo.write(0);
+    delay(100);
+    servo.write(0);
+    delay(0);
+  }
+  else if(distance<12){
+        servo.write(0);
+        delay(100);
+        servo.write(220);
+        delay(6000);
+        servo.write(0);
+        delay(200);
+ }
+}
